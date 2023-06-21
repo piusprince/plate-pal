@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { ApolloDriver } from '@nestjs/apollo';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ApolloDriver } from '@nestjs/apollo';
       driver: ApolloDriver,
     }),
     RestaurantsModule,
+    PrismaModule,
   ],
   controllers: [],
   providers: [AppService],
