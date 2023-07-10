@@ -3,18 +3,55 @@
 # ------------------------------------------------------
 
 type Restaurant {
+  id: Float!
   name: String!
-  isGood: Boolean
   address: String!
-  ownerName: String!
-  categoryName: String!
-  isVegan: String!
+  owner: String!
+  category: String!
+}
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  password: String!
+  role: String!
 }
 
 type Query {
-  restaurants(veganOnly: Boolean!): [Restaurant!]!
+  restaurants: [Restaurant!]!
+  login(input: LoginAccountInput!): User!
+}
+
+input LoginAccountInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
-  createRestaurant(name: String!, isVegan: Boolean!, address: String!, ownerName: String!, categoryName: String!): Boolean!
+  createRestaurant(input: CreateRestaurantDto!): Restaurant!
+  updateResturant(id: Float!, input: UpdateRestaurantDto!): Restaurant!
+  deleteRestaurant(id: Float!): Restaurant!
+  createAccount(input: CreateAccountInput!): User!
+}
+
+input CreateRestaurantDto {
+  name: String!
+  address: String!
+  owner: String!
+  category: String!
+}
+
+input UpdateRestaurantDto {
+  name: String
+  address: String
+  owner: String
+  category: String
+}
+
+input CreateAccountInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String!
 }

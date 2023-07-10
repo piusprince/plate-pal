@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  api:
+    restart: always
+    build:
+      context: ./api
+      dockerfile: ./docker/backend/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./api:/app
+    depends_on:
+      - platepaldb
+
+  platepaldb:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: platepaldb
+    ports:
+      - "5430:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - platepal
+
+networks:
+  platepal:
+    driver: bridge
