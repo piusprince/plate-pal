@@ -10,14 +10,24 @@ type Restaurant {
   category: String!
 }
 
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
 type Query {
   restaurants: [Restaurant!]!
+  hi: Boolean!
 }
 
 type Mutation {
   createRestaurant(input: CreateRestaurantDto!): Restaurant!
   updateResturant(id: Float!, input: UpdateRestaurantDto!): Restaurant!
   deleteRestaurant(id: Float!): Restaurant!
+  createAccount(input: CreateAccountInput!): User!
 }
 
 input CreateRestaurantDto {
@@ -32,4 +42,11 @@ input UpdateRestaurantDto {
   address: String
   owner: String
   category: String
+}
+
+input CreateAccountInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String!
 }
