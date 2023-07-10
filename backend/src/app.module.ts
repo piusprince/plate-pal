@@ -7,6 +7,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
 import { ApolloDriver } from '@nestjs/apollo';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
 
 console.log(Joi);
@@ -27,6 +28,7 @@ console.log(Joi);
     }),
     RestaurantsModule,
     PrismaModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [AppService],
