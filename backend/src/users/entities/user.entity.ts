@@ -11,7 +11,9 @@ export class User {
   @Field((type) => Number)
   id: number;
 
-  @Field((type) => String)
+  @Field((type) => String, {
+    nullable: false,
+  })
   name: string;
 
   @Field((type) => String)
