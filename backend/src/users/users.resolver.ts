@@ -5,14 +5,15 @@ import {
   CreateAccountInput,
   CreateAccountOutput,
 } from './dtos/create-account.dto';
+import { LoginAccountInput } from './dtos/login-account.dto';
 
 @Resolver((of) => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query((returns) => Boolean)
-  hi() {
-    return true;
+  @Query((returns) => User)
+  login(@Args('input') loginAccountInput: LoginAccountInput): Promise<boolean> {
+    return this.usersService.login(loginAccountInput);
   }
 
   @Mutation((returns) => User)
