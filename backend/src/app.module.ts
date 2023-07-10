@@ -10,8 +10,6 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
 
-console.log(Joi);
-
 @Module({
   imports: [
     ConfigModule.forRoot({
