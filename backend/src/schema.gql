@@ -20,7 +20,12 @@ type User {
 
 type Query {
   restaurants: [Restaurant!]!
-  hi: Boolean!
+  login(input: LoginAccountInput!): User!
+}
+
+input LoginAccountInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
