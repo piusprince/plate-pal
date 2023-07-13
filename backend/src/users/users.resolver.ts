@@ -6,13 +6,15 @@ import {
   CreateAccountOutput,
 } from './dtos/create-account.dto';
 import { LoginAccountInput } from './dtos/login-account.dto';
+import { HttpCode, HttpStatus } from '@nestjs/common';
 
 @Resolver((of) => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  @HttpCode(HttpStatus.OK)
   @Query((returns) => User)
-  login(@Args('input') loginAccountInput: LoginAccountInput): Promise<boolean> {
+  login(@Args('input') loginAccountInput: LoginAccountInput): Promise<any> {
     return this.usersService.login(loginAccountInput);
   }
 

@@ -1,10 +1,10 @@
-import { OmitType, InputType, ObjectType } from '@nestjs/graphql';
+import { InputType, ObjectType, PickType, Field } from '@nestjs/graphql';
 import { User } from '../entities/user.entity';
 
 @InputType()
-export class LoginAccountInput extends OmitType(
+export class LoginAccountInput extends PickType(
   User,
-  ['role', 'name', 'role', 'id'],
+  ['email', 'password'],
   InputType,
 ) {}
 
@@ -12,5 +12,6 @@ export class LoginAccountInput extends OmitType(
 export class LoginAccountOutput {
   ok: boolean;
   error?: string;
-  token?: string;
+  @Field((type) => String, { nullable: true })
+  accessToken?: string;
 }
