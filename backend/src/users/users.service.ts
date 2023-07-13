@@ -1,17 +1,29 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAccountInput } from './dtos/create-account.dto';
 import * as bcrypt from 'bcrypt';
 
-import { LoginAccountInput } from './dtos/login-account.dto';
+import {
+  LoginAccountInput,
+  LoginAccountOutput,
+} from './dtos/login-account.dto';
+import { JwtService } from '@nestjs/jwt';
+import jwtConfig from 'src/config/jwt.config';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly jwtService: JwtService,
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+  ) {}
 
   async createAccount(data: CreateAccountInput): Promise<any> {
     const existingUser = await this.prisma.user.findUnique({
@@ -52,8 +64,22 @@ export class UsersService {
     if (!isPasswordValid) {
       throw new ForbiddenException('Access Denied!. Wrong password');
     }
-    console.log('user', user);
-    return user;
+
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        email: user.email,
+      },
+      {
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+        secret: this.jwtConfiguration.secret,
+        expiresIn: this.jwtConfiguration.accessTokenTtl,
+      },
+    );
+    console.log(accessToken);
+
+    return { accessToken };
   }
 
   hashedData(data: string): Promise<string> {
